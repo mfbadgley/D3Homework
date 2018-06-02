@@ -1,6 +1,9 @@
+
+// Define SVG area dimensions
 var svgWidth = 960;
 var svgHeight = 500;
 
+// Define the chart's margins as an object
 var margin = {
   top: 20,
   right: 40,
@@ -8,6 +11,7 @@ var margin = {
   left: 100
 };
 
+// Define dimensions of the chart area
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
@@ -19,7 +23,8 @@ var svg = d3
   .attr("width", svgWidth)
   .attr("height", svgHeight)
 
-// Append an SVG group
+// Append a group to the SVG area and shift ('translate') it to the right and down to adhere
+// to the margins set in the "chartMargin" object. (The SVG <g> element is used to group SVG shapes together. Once grouped you can transform the whole group of shapes as if it was a single shape).
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);;
 
@@ -118,13 +123,13 @@ d3.csv("Data/Data.csv", function (err, Data) {
   var xAxis = chartGroup.append("g")
     .classed("x-axis", true)
     .attr("transform", `translate(0, ${height})`)
-    .call(bottomAxis)
+    .call(bottomAxis)//called from above var
 
   // append y axis
   chartGroup.append("g")
-    .call(leftAxis)
+    .call(leftAxis)//called from above var
 
-  // append initial circles
+  // append initial circles to chartgroup, your initial 'g' group; 
   var circlesGroup = chartGroup.selectAll("circle")
     .data(Data)
     .enter()
@@ -182,7 +187,7 @@ d3.csv("Data/Data.csv", function (err, Data) {
         xLinearScale = xScale(Data, chosenXAxis);
 
         // updates x axis with transition
-        xAxis = renderAxes(xLinearScale, xAxis);
+        xAxis = renderAxes(xLinearScale, xAxis);//xAxis called from above var
 
         // updates circles with new x values
         circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
